@@ -1,17 +1,17 @@
 #! python3
 import requests
-import read_songs_from_file
+import pandas as pd
 
-# this will later be read from a file
-# have to make sure spaces are replaced with '-'
-artist = 'Neutral-Milk-Hotel'
+def scrape_the_web(artist):
 
-r = requests.get(f'https://www.lyrics.com/artist/{artist}')
+    r = requests.get(f'https://www.lyrics.com/artist/{artist}')
 
-print(r.status_code)
+    web_page = open(f'../data/{artist}.html', 'w')
+    web_page.write(r.text)
+    web_page.close()
 
-web_page = open(f'../data/{artist}.html', 'w')
-web_page.write(r.text)
-web_page.close()
 
-get_song_titles('Neutral-Milk-Hotel')
+df = pd.read_csv('../data/artists.csv')
+
+for artist in df['Artist']:
+    scrape_the_web(artist)

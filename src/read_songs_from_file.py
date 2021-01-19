@@ -1,4 +1,5 @@
 #! python3
+import pandas as pd
 from bs4 import BeautifulSoup as bs4
 
 def get_song_titles(artist):
@@ -7,16 +8,18 @@ def get_song_titles(artist):
     with open(f'../data/{artist}.html') as fp:
         soup = bs4(fp, 'html.parser')
 
-    # artist = soup.body.find('h1', 'artist').string
-    print(artist)
+    musician = soup.body.find('h1', 'artist').string
 
     table_data = soup.body.find_all('td', 'tal qx')
 
     songs = []
     for data in table_data:
-        songs.append({'artist': artist,
+        songs.append({'artist': musician,
                       'song': data.string,
                       'url': data.a['href']})
 
     return songs
 
+df = pd.read_csv('../data/artists.csv')
+for artist in df['Artist']:
+    print(get_song_titles(artist))
