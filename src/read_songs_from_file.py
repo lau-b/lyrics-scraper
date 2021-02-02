@@ -1,47 +1,38 @@
 #! python3
-import requests
-import time
+import os
+import utils
+from pathlib import Path
+import scraper
 import pandas as pd
-from bs4 import BeautifulSoup as bs4
-
-def find_songs_and_urls(artist):
-
-    with open(f'../data/raw/{artist}.html') as fp:
-        soup = bs4(fp, 'html.parser')
-
-    musician = soup.body.find('h1', 'artist').string
-    table_data = soup.body.find_all('td', 'tal qx')
-
-    songs = []
-    for data in table_data:
-        songs.append({'artist': musician,
-                      'title': data.string,
-                      'url': data.a['href']})
-
-    return songs
 
 
-def scrape_lyrics_page(artist, song, url):
-    r = requests.get(f'https://www.lyrics.com/artist{url}')
+# Setting Path to project root
+PATH = f'{utils.get_project_root()}/data/artists.csv'
+print(PATH)
 
-    # TODO: import os, create directories in eigene funktion schreiben. Eventuell schon im Loop selbst.
-    web_page = open(f'../data/raw/artists/{artist}_{song}.html', 'w')
-    web_page.write(r.text)
-    web_page.close()
-    time.sleep(0.5)
+df = pd.read_csv(PATH)
+print(df)
+
+# for artist in df['Artist']:
+#     scrape_artist_overview(artist)
+
+df2 = pd.DataFrame({
+    'artist': [],
+    'song': [],
+    'url': []
+    })
 
 
-song_list = []
-
-df = pd.read_csv('../data/artists.csv')
 for artist in df['Artist']:
-    song_list.append(find_songs_and_urls(artist))
+    df2 = df2.append(scraper.find_songs_and_urls(artist))
+    # print(scraper.find_songs_and_urls(artist))
 
 
-for artist in song_list:
-    counter = 0
-    for song in artist:
-        counter += 1
-        print(f'Downloading song ({counter}/{len(artist)}) .......')
-        # print(song['artist'], counter, song['url'])
-        scrape_lyrics_page(song['artist'], counter, song['url'])
+print(df2)
+# for artist in song_list:
+#     counter = 0
+#     for song in artist:
+#         counter += 1
+#         print(f'Downloading song ({counter}/{len(artist)}) .......')
+#         # print(song['artist'], counter, song['url'])
+#         scrape_lyrics_page(song['artist'], counter, song['url'])
