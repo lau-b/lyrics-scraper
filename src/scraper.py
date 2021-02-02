@@ -21,7 +21,7 @@ def scrape_lyrics_page(artist, song, url):
     r = requests.get(f'https://www.lyrics.com/{url}')
 
     # TODO: import os, create directories in eigene funktion schreiben. Eventuell schon im Loop selbst.
-    web_page = open(f'{utils.get_project_root()}/data/raw/artists/{artist}_{song}.html', 'w')
+    web_page = open(f'{utils.get_project_root()}/data/raw/artists/{artist}/{song}.html', 'w')
     web_page.write(r.text)
     web_page.close()
     time.sleep(0.5)

@@ -24,24 +24,18 @@ for artist in df_artist_list['Artist']:
     try:
         os.makedirs(f'{utils.get_project_root()}/data/raw/artists/{artist}')
     except FileExistsError:
-        print(f'Directory for {artist} already exsists.')
+        print(f'{artist}: Directory already exsists.')
 
     scraper.scrape_artist_overview(artist)
-    # df = df.append(scraper.find_songs_and_urls(artist))
-    # print(scraper.find_songs_and_urls(artist))
+    df = df.append(scraper.find_songs_and_urls(artist))
 
 
-print(df)
-# for artist in song_list:
-#     counter = 0
-#     for song in artist:
-#         counter += 1
-#         print(f'Downloading song ({counter}/{len(artist)}) .......')
-#         # print(song['artist'], counter, song['url'])
-#         scrape_lyrics_page(song['artist'], counter, song['url'])
+for i in range(len(df)):
+    artist, song, url = df[['artist', 'song', 'url']].iloc[i]
+    print(f'scraping {1}/{len(df) + 1}')
+    scraper.scrape_lyrics_page('Neutral-Milk-Hotel', song, url)
 
 
+print('success!! Hooray')
 
-# create folder for ever artist:
-# Path.mkdir(Path(f'{utils.get_project_root()}/data/artists/', artist))
 
