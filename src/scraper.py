@@ -1,6 +1,7 @@
 #! python3
 import requests
 import time
+import os
 import pandas as pd
 import utils
 from bs4 import BeautifulSoup as bs4
@@ -11,7 +12,7 @@ def scrape_artist_overview(artist):
 
     r = requests.get(f'https://www.lyrics.com/artist/{artist}')
 
-    web_page = open(f'../data/raw/{artist}.html', 'w')
+    web_page = open(f'{utils.get_project_root()}/data/raw/{artist}.html', 'w')
     web_page.write(r.text)
     web_page.close()
 
@@ -40,3 +41,6 @@ def find_songs_and_urls(artist):
                       'song': data.string,
                       'url': data.a['href']})
     return songs
+
+
+
