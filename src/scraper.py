@@ -32,7 +32,7 @@ def extract_lyrics(filepath):
             soup = bs4(file, 'html.parser')
             return re.sub(r'\n', ' ', soup.body.pre.text)
     except FileNotFoundError:
-        return(f'could not find {filepath}')
+        print(f'could not find {filepath}')
 
 
 
