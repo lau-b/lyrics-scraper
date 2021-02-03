@@ -4,6 +4,7 @@ import time
 import os
 import pandas as pd
 import utils
+import re
 from bs4 import BeautifulSoup as bs4
 
 
@@ -20,11 +21,16 @@ def scrape_artist_overview(artist):
 def scrape_lyrics_page(artist, song, url):
     r = requests.get(f'https://www.lyrics.com/{url}')
 
-    # TODO: import os, create directories in eigene funktion schreiben. Eventuell schon im Loop selbst.
     web_page = open(f'{utils.get_project_root()}/data/raw/artists/{artist}/{song}.html', 'w')
     web_page.write(r.text)
     web_page.close()
     time.sleep(0.5)
+
+def scrape_lyrics_into_df(url):
+    r = requests.get(f'https://www.lyrics.com/{url}')
+
+    soup = bs4(r.text, 'html.parser')
+    return soup.body.pre.text
 
 
 def find_songs_and_urls(artist):
@@ -33,14 +39,17 @@ def find_songs_and_urls(artist):
         soup = bs4(fp, 'html.parser')
 
     songs = []
-    musician = soup.body.find('h1', 'artist').string
+    musician = clean_string(soup.body.find('h1', 'artist').string)
     table_data = soup.body.find_all('td', 'tal qx')
 
     for data in table_data:
         songs.append({'artist': musician,
-                      'song': data.string,
+                      'song': clean_string(data.string),
                       'url': data.a['href']})
     return songs
 
 
-
+def clean_string(string):
+    print('input: ', string)
+    string = re.sub(r'\.|,', '', string).replace(' ', '-').lower()
+    return string
