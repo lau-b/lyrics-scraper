@@ -17,20 +17,24 @@ PATH = Path(f'{utils.get_project_root()}/data/artists.csv')
 artist_list = pd.read_csv(PATH)
 df = pd.DataFrame({'artist': [],
                    'song': [],
-                   'url': [],
-                   'lyrics': []})
+                   'url': []})
 
 # creating missing folders to store lyric pages in
 for artist in artist_list['Artist']:
+    # getting artist overview pages
+    scraper.scrape_artist_overview(artist)
+    artist = utils.clean_artist(artist)
+
     try:
         os.makedirs(f'{utils.get_project_root()}/data/raw/artists/{artist}')
     except FileExistsError:
         print(f'{artist}: Directory already exsists.')
 
-    # getting artist overview pages
-    scraper.scrape_artist_overview(artist)
+
 
     # extracting artist and song information and saving into a csv
     df = df.append(scraper.find_songs_and_urls(artist))
 
+
+df.drop_duplicates(['artist', 'song'], inplace=True)
 df.to_csv(f'{utils.get_project_root()}/data/processed/overview.csv')
