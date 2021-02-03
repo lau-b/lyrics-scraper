@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup as bs4
 
 
 def scrape_artist_overview(artist):
-    print(f'downloading: {artist}')
+    # print(f'downloading: {artist}')
     r = requests.get(f'https://www.lyrics.com/artist/{artist}')
 
     web_page = open(f'{utils.get_project_root()}/data/raw/{utils.clean_artist(artist)}.html', 'w')

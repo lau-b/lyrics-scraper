@@ -11,12 +11,14 @@ def create_folders(artist):
     try:
         os.makedirs(f'{get_project_root()}/data/raw/artists/{artist}')
     except FileExistsError:
-        print(f'{artist}: Directory already exsists.')
+        pass
+        # print(f'{artist}: Directory already exsists.')
 
     try:
         os.makedirs(f'{get_project_root()}/data/processed/artists/{artist}')
     except FileExistsError:
-        print(f'{artist}: Directory already exsists.')
+        pass
+        # print(f'{artist}: Directory already exsists.')
 
 
 def clean_string(string):
