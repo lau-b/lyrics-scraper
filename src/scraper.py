@@ -28,7 +28,8 @@ def extract_lyrics(filepath):
     try:
         with open(filepath, 'r') as file:
             soup = bs4(file, 'html.parser')
-            return re.sub(r'\n', ' ', soup.body.pre.text)
+            lyrics = re.sub(r'\n', ' ', soup.body.pre.text)
+            return re.sub(r'\[[vVcCsS]\w+]', '', lyrics)
     except (AttributeError, FileNotFoundError) as e:
         # print(f'could not find {filepath}')
         pass
