@@ -9,7 +9,8 @@ with open(f'{utils.get_project_root()}/data/processed/overview.csv', 'r') as fil
 
 
 for entry in tqdm(song_list):
-    read_path = (f'{utils.get_project_root()}/data/raw/artists/{entry[0]}/{entry[1]}.html')
+    read_path = (
+        f'{utils.get_project_root()}/data/raw/artists/{entry[0]}/{entry[1]}.html')
     write_path = f'{utils.get_project_root()}/data/processed/list-of-lyrics.txt'
     lyrics = scraper.extract_lyrics(read_path)
 

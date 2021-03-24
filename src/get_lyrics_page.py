@@ -10,6 +10,7 @@ with open(f'{utils.get_project_root()}/data/processed/overview.csv', 'r') as fil
     for line in file:
         song_list.append(line.split('|'))
 
-# TODO: might inclode a step here in which to remove duplicates before loading them
+# TODO: might inclode a step here in which to remove duplicates before
+# loading them
 for song in tqdm(song_list):
     scraper.scrape_lyrics_page(song[0], song[1], re.sub('\n', '', song[2]))

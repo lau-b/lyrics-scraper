@@ -10,7 +10,13 @@ from sklearn import metrics
 import pickle
 
 print('### Reading data')
-df = pd.read_csv(f'{utils.get_project_root()}/data/processed/list-of-lyrics.txt', delimiter='|', names=['artist', 'song_name', 'lyrics'])
+df = pd.read_csv(
+    f'{utils.get_project_root()}/data/processed/list-of-lyrics.txt',
+    delimiter='|',
+    names=[
+        'artist',
+        'song_name',
+        'lyrics'])
 
 df.drop_duplicates(subset=['artist', 'song_name'], inplace=True, keep='first')
 df.drop_duplicates(subset='lyrics', keep='first', inplace=True)
@@ -48,12 +54,21 @@ grid_search = GridSearchCV(
     n_jobs=-1
 )
 
-# finding the best parameter for logistig regression and training the final model
+# finding the best parameter for logistig regression and training the
+# final model
 grid_search.fit(X_train, y_train)
 final_model = grid_search.best_estimator_
 
-print('Balanced accuracy score of final model: ', metrics.balanced_accuracy_score(y_test, final_model.predict(X_test)))
-print('Accuracy score of final model: ', metrics.accuracy_score(y_test, final_model.predict(X_test)))
+print(
+    'Balanced accuracy score of final model: ',
+    metrics.balanced_accuracy_score(
+        y_test,
+        final_model.predict(X_test)))
+print(
+    'Accuracy score of final model: ',
+    metrics.accuracy_score(
+        y_test,
+        final_model.predict(X_test)))
 
 print('### Saving model')
 with open(f'{utils.get_project_root()}/src/lyrics_model.pickle', 'wb') as file:

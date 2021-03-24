@@ -10,7 +10,9 @@ from bs4 import BeautifulSoup as bs4
 def scrape_artist_overview(artist):
     r = requests.get(f'https://www.lyrics.com/artist/{artist}')
 
-    web_page = open(f'{utils.get_project_root()}/data/raw/{utils.clean_artist(artist)}.html', 'w')
+    web_page = open(
+        f'{utils.get_project_root()}/data/raw/{utils.clean_artist(artist)}.html',
+        'w')
     web_page.write(r.text)
     web_page.close()
 
@@ -18,7 +20,9 @@ def scrape_artist_overview(artist):
 def scrape_lyrics_page(artist, song, url):
     r = requests.get(f'https://www.lyrics.com/{url}')
 
-    web_page = open(f'{utils.get_project_root()}/data/raw/artists/{artist}/{song}.html', 'w')
+    web_page = open(
+        f'{utils.get_project_root()}/data/raw/artists/{artist}/{song}.html',
+        'w')
     web_page.write(r.text)
     web_page.close()
     time.sleep(0.3)
@@ -46,6 +50,7 @@ def find_songs_and_url(artist):
     for data in table_data:
         song = utils.clean_string(data.string)
         url = data.a['href']
-        overview_file = open(f'{utils.get_project_root()}/data/processed/overview.csv', 'a')
+        overview_file = open(
+            f'{utils.get_project_root()}/data/processed/overview.csv', 'a')
         overview_file.write(f'{musician}|{song}|{url}\n')
         overview_file.close
