@@ -16,12 +16,13 @@ time.sleep(2)
 print('aaaand that\'s about it...')
 
 
-
-lyrics = input('Now let\'s start.. Give me some lyrics. Also, you can just leave by pressing \'x\': ')
+lyrics = input(
+    'Now let\'s start.. Give me some lyrics. Also, you can just leave by pressing \'x\': ')
 while lyrics != 'x':
     try:
         answer = predictor.predict([lyrics])
-        print(f'Oh this is easy. It is {answer[0].capitalize()}, why do you even bother wasting my time?\n')
+        print(
+            f'Oh this is easy. It is {answer[0].capitalize()}, why do you even bother wasting my time?\n')
         lyrics = input('Go, shoot me some difficult lyrics, please: ')
         if lyrics == 'x':
             print('OK THEN GET OFF! AND I REALLY KNOW THE OTHERS! I SWEAR! BYE!')
@@ -32,4 +33,3 @@ while lyrics != 'x':
             time.sleep(2)
     except KeyboardInterrupt:
         print('\n\nHaha\nI told you how can get out of here. This cheap trick wont work on me!')
-

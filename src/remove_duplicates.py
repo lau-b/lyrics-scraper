@@ -8,6 +8,6 @@ df = pd.read_csv(f'{utils.get_project_root()}/data/processed/overview.csv',
 df.drop_duplicates(subset=['artist', 'song_name'], inplace=True, keep='first')
 
 df.to_csv(f'{utils.get_project_root()}/data/processed/overview.csv',
-    header=False,
-    index=False,
-    sep='|')
+          header=False,
+          index=False,
+          sep='|')
